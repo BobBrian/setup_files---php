@@ -15,7 +15,7 @@ ini_set('display_errors', 1);
 
 	<div id="header" class="mainHeader">
 		<hr>
-		<div class="center"> Nwacuhe Caf&eacute;</div>
+		<div class="center"> Nwauche Caf&eacute;</div>
 	</div>
 	<br>
 	<hr>
@@ -39,17 +39,39 @@ ini_set('display_errors', 1);
 			<br>
 
 		<?php
-		$connection_string = "host=nwauchedb-instance.che2gowucmtf.us-east-1.rds.amazonaws.com port=5432 dbname=nwauchedb user=postgres password=Chibuikem123";
+		// Database connection parameters
+		$connection_string = "host=nwauche-instance-database-1.che2gowucmtf.us-east-1.rds.amazonaws.com port=5432 dbname=nwaucheRDS user=postgres password=chibuikem123";
 		$connection = pg_connect($connection_string) or die("Could not connect to the database: " . pg_last_error());
 
-
-		$query = "SELECT * FROM employee";
+		
+		$query = "SELECT * FROM employee";  
 		$result = pg_query($connection, $query) or die("Error reading data: " . pg_last_error());
 
+		// Start the table
+		echo '<table border="1" cellpadding="10" cellspacing="0" class="center">';
+		echo '<tr>';
+		echo '<th>ID</th>';
+		echo '<th>First Name</th>';
+		echo '<th>Last Name</th>';
+		echo '<th>Position</th>'; 
+		echo '<th>Created At</th>'; 
+		echo '</tr>';
+
+		// Fetch each row and display it in the table
 		while ($row = pg_fetch_assoc($result)) {
-			echo "ID: " . $row['id'] . ", First Name: " . $row['fname'] . ", Last Name: " . $row['lname'] . ", Timestamp: " . $row['created_at'] . "\n";
+			echo '<tr>';
+			echo '<td>' . $row['id'] . '</td>';
+			echo '<td>' . $row['fname'] . '</td>';
+			echo '<td>' . $row['lname'] . '</td>';
+			echo '<td>' . $row['position'] . '</td>';  // Display position
+			echo '<td>' . $row['created_at'] . '</td>'; // Display created_at
+			echo '</tr>';
 		}
 
+		// End the table
+		echo '</table>';
+
+		
 		?>
 		</div>
 	</div>
